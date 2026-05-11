@@ -1,6 +1,21 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FaGithub, FaExternalLinkAlt, FaUsers, FaBolt } from "react-icons/fa";
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaUsers,
+  FaBolt,
+} from "react-icons/fa";
+
+/*
+  Make sure this file exists:
+
+  src/assets/images/img1.png
+
+  Change .png to .jpg if needed
+*/
+import img1 from "../assets/images/img1.png";
+import img2 from "../assets/images/img2.png";
 
 const filters = ["All", "Fullstack", "Frontend"];
 
@@ -8,31 +23,42 @@ const projects = [
   {
     title: "RentMate System",
     category: "Fullstack",
-    description: "Rental management system with analytics dashboard.",
+    description:
+      "Rental management system with analytics dashboard.",
     tech: ["React", "Node.js", "PostgreSQL"],
-    images: [
-      "https://via.placeholder.com/600x400",
-      "https://via.placeholder.com/600x401",
-    ],
-    live: "https://your-vercel-link.vercel.app",
-    github: "https://github.com/TevinTrax/RentMate.git",
+
+    // ONLY RENTMATE USES LOCAL IMAGE
+    images: [img1],
+
+    live: "https://rent-mate-nine.vercel.app",
+
+    github:
+      "https://github.com/TevinTrax/RentMate.git",
+
     stats: {
       users: "1.2K+",
       performance: "98%",
       uptime: "99.9%",
     },
   },
+
   {
-    title: "Portfolio UI",
+    title: "My Portfolio",
     category: "Frontend",
-    description: "Modern animated portfolio UI.",
+    description:
+      "Modern animated portfolio UI.",
+
     tech: ["React", "Tailwind"],
-    images: [
-      "https://via.placeholder.com/600x400",
-      "https://via.placeholder.com/600x402",
-    ],
-    live: "https://your-netlify-link.netlify.app",
-    github: "https://github.com/your-repo",
+
+    // DEFAULT ONLINE IMAGE
+    images: [img2],
+
+    live:
+      "https://your-netlify-link.netlify.app",
+
+    github:
+      "https://github.com/TevinTrax/MyPortfolio.git",
+
     stats: {
       users: "500+",
       performance: "95%",
@@ -42,14 +68,21 @@ const projects = [
 ];
 
 function Projects() {
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [selected, setSelected] = useState(null);
-  const [currentImg, setCurrentImg] = useState(0);
+  const [activeFilter, setActiveFilter] =
+    useState("All");
+
+  const [selected, setSelected] =
+    useState(null);
+
+  const [currentImg, setCurrentImg] =
+    useState(0);
 
   const filtered =
     activeFilter === "All"
       ? projects
-      : projects.filter((p) => p.category === activeFilter);
+      : projects.filter(
+          (p) => p.category === activeFilter
+        );
 
   return (
     <section
@@ -57,8 +90,7 @@ function Projects() {
       className="relative min-h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white py-20"
     >
       <div className="container mx-auto px-6">
-
-        {/*HEADER */}
+        {/* HEADER */}
         <h1 className="text-4xl md:text-5xl text-center font-bold mb-10">
           My{" "}
           <span className="bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent">
@@ -66,12 +98,14 @@ function Projects() {
           </span>
         </h1>
 
-        {/* 🔥 FILTER TABS */}
-        <div className="flex justify-center gap-4 mb-12">
+        {/* FILTER TABS */}
+        <div className="flex justify-center gap-4 mb-12 flex-wrap">
           {filters.map((f) => (
             <button
               key={f}
-              onClick={() => setActiveFilter(f)}
+              onClick={() =>
+                setActiveFilter(f)
+              }
               className={`px-4 py-2 rounded-full text-sm transition ${
                 activeFilter === f
                   ? "bg-emerald-500 text-white"
@@ -83,7 +117,7 @@ function Projects() {
           ))}
         </div>
 
-        {/* 🔥 GRID */}
+        {/* PROJECT GRID */}
         <div className="grid md:grid-cols-2 gap-10">
           {filtered.map((project, i) => (
             <TiltCard key={i}>
@@ -95,11 +129,18 @@ function Projects() {
                   setCurrentImg(0);
                 }}
               >
-                <img
-                  src={project.images[0]}
-                  className="w-full h-60 object-cover"
-                />
+                {/* PROJECT IMAGE */}
+                <div className="relative overflow-hidden">
+                  <img
+                    src={project.images[0]}
+                    alt={project.title}
+                    className="w-full h-60 object-cover group-hover:scale-105 transition duration-500"
+                  />
 
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                </div>
+
+                {/* CONTENT */}
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-2">
                     {project.title}
@@ -109,27 +150,38 @@ function Projects() {
                     {project.description}
                   </p>
 
-                  {/* 📊 ANALYTICS */}
+                  {/* ANALYTICS */}
                   <div className="flex justify-between text-xs text-gray-300 mb-4">
                     <span className="flex items-center gap-1">
-                      <FaUsers /> {project.stats.users}
+                      <FaUsers />
+                      {project.stats.users}
                     </span>
+
                     <span className="flex items-center gap-1">
-                      <FaBolt /> {project.stats.performance}
+                      <FaBolt />
+                      {
+                        project.stats
+                          .performance
+                      }
                     </span>
-                    <span>{project.stats.uptime}</span>
+
+                    <span>
+                      {project.stats.uptime}
+                    </span>
                   </div>
 
-                  {/* TECH */}
+                  {/* TECH STACK */}
                   <div className="flex flex-wrap gap-2">
-                    {project.tech.map((t, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs bg-white/10 px-2 py-1 rounded"
-                      >
-                        {t}
-                      </span>
-                    ))}
+                    {project.tech.map(
+                      (t, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs bg-white/10 px-2 py-1 rounded"
+                        >
+                          {t}
+                        </span>
+                      )
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -138,82 +190,118 @@ function Projects() {
         </div>
       </div>
 
-      {/* 🔥 MODAL */}
+      {/* MODAL */}
       {selected && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            initial={{
+              scale: 0.8,
+              opacity: 0,
+            }}
+            animate={{
+              scale: 1,
+              opacity: 1,
+            }}
             className="bg-[#0f172a] p-6 rounded-2xl max-w-2xl w-full border border-white/10"
           >
-            {/* 🖼️ CAROUSEL */}
+            {/* IMAGE */}
             <div className="relative mb-4">
               <img
-                src={selected.images[currentImg]}
+                src={
+                  selected.images[currentImg]
+                }
+                alt={selected.title}
                 className="w-full h-64 object-cover rounded-xl"
               />
 
+              {/* PREVIOUS */}
               <button
                 onClick={() =>
                   setCurrentImg(
                     (prev) =>
-                      (prev - 1 + selected.images.length) %
+                      (prev -
+                        1 +
+                        selected.images
+                          .length) %
                       selected.images.length
                   )
                 }
-                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1 rounded"
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 px-3 py-2 rounded"
               >
                 ◀
               </button>
 
+              {/* NEXT */}
               <button
                 onClick={() =>
                   setCurrentImg(
-                    (prev) => (prev + 1) % selected.images.length
+                    (prev) =>
+                      (prev + 1) %
+                      selected.images.length
                   )
                 }
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 px-2 py-1 rounded"
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 px-3 py-2 rounded"
               >
                 ▶
               </button>
             </div>
 
+            {/* TITLE */}
             <h2 className="text-2xl font-bold mb-2">
               {selected.title}
             </h2>
 
+            {/* DESCRIPTION */}
             <p className="text-gray-400 mb-4">
               {selected.description}
             </p>
 
-            {/* 📊 ANALYTICS */}
-            <div className="flex gap-6 text-sm mb-4">
-              <span>👥 {selected.stats.users}</span>
-              <span>⚡ {selected.stats.performance}</span>
-              <span>🟢 {selected.stats.uptime}</span>
+            {/* STATS */}
+            <div className="flex gap-6 text-sm mb-6">
+              <span>
+                👥 {selected.stats.users}
+              </span>
+
+              <span>
+                ⚡{" "}
+                {
+                  selected.stats.performance
+                }
+              </span>
+
+              <span>
+                🟢 {selected.stats.uptime}
+              </span>
             </div>
 
             {/* LINKS */}
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               <a
                 href={selected.live}
                 target="_blank"
+                rel="noreferrer"
                 className="bg-emerald-500 px-4 py-2 rounded-lg flex items-center gap-2"
               >
-                <FaExternalLinkAlt /> Live
+                <FaExternalLinkAlt />
+                Live
               </a>
 
               <a
                 href={selected.github}
                 target="_blank"
+                rel="noreferrer"
                 className="border border-white px-4 py-2 rounded-lg flex items-center gap-2"
               >
-                <FaGithub /> Code
+                <FaGithub />
+                Code
               </a>
             </div>
 
+            {/* CLOSE */}
             <button
-              onClick={() => setSelected(null)}
+              onClick={() =>
+                setSelected(null)
+              }
               className="mt-6 text-red-400 text-sm"
             >
               Close
@@ -225,16 +313,27 @@ function Projects() {
   );
 }
 
-/* 🔥 3D TILT COMPONENT */
+/* 3D TILT CARD */
 function TiltCard({ children }) {
-  const [style, setStyle] = useState({});
+  const [style, setStyle] =
+    useState({});
 
   const handleMove = (e) => {
-    const { offsetWidth: w, offsetHeight: h } = e.currentTarget;
-    const { offsetX: x, offsetY: y } = e.nativeEvent;
+    const {
+      offsetWidth: w,
+      offsetHeight: h,
+    } = e.currentTarget;
 
-    const rotateX = ((y - h / 2) / h) * -10;
-    const rotateY = ((x - w / 2) / w) * 10;
+    const {
+      offsetX: x,
+      offsetY: y,
+    } = e.nativeEvent;
+
+    const rotateX =
+      ((y - h / 2) / h) * -10;
+
+    const rotateY =
+      ((x - w / 2) / w) * 10;
 
     setStyle({
       transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
@@ -244,7 +343,11 @@ function TiltCard({ children }) {
   return (
     <div
       onMouseMove={handleMove}
-      onMouseLeave={() => setStyle({ transform: "none" })}
+      onMouseLeave={() =>
+        setStyle({
+          transform: "none",
+        })
+      }
       style={style}
       className="transition-transform duration-200"
     >

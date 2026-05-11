@@ -15,7 +15,7 @@ function WhatsAppChat() {
     defaultMessage
   )}`;
 
-  // 🔥 Auto popup after 3 seconds
+  // Auto popup after 3 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPopup(true);
